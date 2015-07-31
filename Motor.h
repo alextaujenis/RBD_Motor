@@ -12,10 +12,10 @@ class Motor {
     void timedOn(int timeout);
     bool isOn();
     bool isOff();
-    int speed();
-    int speedPercent();
-    void pwm(int value);
-    void pwmPercent(int value);
+    int getPwm();
+    int getPwmPercent();
+    void setPwm(int value);
+    void setPwmPercent(int value);
     void rampUp(int timeout);
     void rampDown(int timeout);
     void ramp(int value, int timeout);
@@ -24,6 +24,7 @@ class Motor {
   private:
     int _pin;
     int _speed;
+    bool _ramping;
     int _start_speed;
     int _target_speed;
     bool _on;

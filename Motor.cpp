@@ -9,11 +9,11 @@ Motor::Motor(int pin) {
 }
 
 void Motor::on() {
-  pwm(255);
+  setPwm(255);
 }
 
 void Motor::off() {
-  pwm(0);
+  setPwm(0);
 }
 
 void Motor::update() {
@@ -28,7 +28,7 @@ void Motor::update() {
 void Motor::timedOn(int timeout) {
   _timed_on = true;
   timer.setTimeout(timeout);
-  timer.reset()
+  timer.restart();
 }
 
 void Motor::_timedOn() {
@@ -51,15 +51,15 @@ bool Motor::isOff() {
   return !_on;
 }
 
-int Motor::speed() {
+int Motor::getPwm() {
   return _speed;
 }
 
-int Motor::speedPercent() {
-  return int(speed() / 255);
+int Motor::getPwmPercent() {
+  return int(getPwm() / 255.0 * 100);
 }
 
-void Motor::pwm(int value) {
+void Motor::setPwm(int value) {
   if(value > -1 && value < 256) {
     analogWrite(_pin, value);
     _on = bool(value);
@@ -67,8 +67,8 @@ void Motor::pwm(int value) {
   }
 }
 
-void Motor::pwmPercent(int value) {
-  pwm(int(value / 100 * 255));
+void Motor::setPwmPercent(int value) {
+  setPwm(int(value / 100.0 * 255));
 }
 
 void Motor::rampUp(int timeout) {
@@ -80,13 +80,13 @@ void Motor::rampDown(int timeout) {
 }
 
 void Motor::ramp(int value, int timeout) {
-  _start_speed  = speed();
+  _start_speed  = getPwm();
   _target_speed = value;
 
   if(_speedShouldChange()) {
     _ramping = true;
     timer.setTimeout(timeout);
-    timer.reset();
+    timer.restart();
   }
   else {
     _ramping = false;
@@ -95,10 +95,10 @@ void Motor::ramp(int value, int timeout) {
 
 void Motor::_ramp() {
   if(timer.isActive()) {
-    pwm(int(_start_speed + (timer.getPercentValue() * _speedDifference()));
+    setPwm(int(_start_speed + (timer.getPercentValue() * _speedDifference())));
   }
   else {
-    pwm(_target_speed);
+    setPwm(_target_speed);
     _ramping = false;
   }
 }
@@ -112,5 +112,5 @@ int Motor::_speedDifference() {
 }
 
 void Motor::rampPercent(int value, int timeout) {
-  ramp(int(value / 100 * 255), timeout);
+  ramp(int(value / 100.0 * 255), timeout);
 }
