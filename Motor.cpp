@@ -1,3 +1,7 @@
+// Arduino Motor Library - A simple, non-blocking, real-time library for controlling motors
+// Copyright 2015 Alex Taujenis
+// MIT License
+
 #include <Arduino.h>
 #include <Motor.h>
 #include <Timer.h>

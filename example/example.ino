@@ -1,6 +1,11 @@
-// include files
+// Arduino Motor Example - Try all motor functions in real-time via serial commands (connected to led 13)
+// Copyright 2015 Alex Taujenis
+// MIT License
+
 #include <Timer.h>
 #include <Motor.h>
+
+#define BAUD 11500;
 
 #define CMD_ON              1
 #define CMD_OFF             2
@@ -16,13 +21,10 @@
 #define CMD_RAMP            12
 #define CMD_RAMP_PERCENT    13
 
-// static values
-int BAUD = 11500;
-int _cmd, _param1, _param2;
-
 // variables
 String serial_buffer = "";
 Motor motor(13);
+int _cmd, _param1, _param2;
 
 void setup() {
   Serial.begin(BAUD);
@@ -37,14 +39,14 @@ void loop() {
     // capture incoming data
     serial_buffer += char(Serial.read());
 
-    // find newline
+    // find end of command
     if (serial_buffer.indexOf(';') > -1) {
       // capture command and parameters
       _cmd    = split(serial_buffer,',',0).toInt();
       _param1 = split(serial_buffer,',',1).toInt();
       _param2 = split(serial_buffer,',',2).toInt();
 
-      //fire the action with the parameters
+      //fire the correct action with the parameters
       performAction(_cmd, _param1, _param2);
 
       // clear the buffer

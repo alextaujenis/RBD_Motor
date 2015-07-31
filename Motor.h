@@ -1,3 +1,7 @@
+// Arduino Motor Library - A simple, non-blocking, real-time library for controlling motors
+// Copyright 2015 Alex Taujenis
+// MIT License
+
 #ifndef MOTOR_H
 #define MOTOR_H
 
