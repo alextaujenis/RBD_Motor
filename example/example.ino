@@ -1,30 +1,15 @@
-// Arduino Motor Example - Try all motor functions in real-time via serial commands (connected to led 13)
+// Arduino Motor Example - Try all motor functions in real-time via serial commands (controls led 13 by default)
 // Copyright 2015 Alex Taujenis
 // MIT License
 
 #include <Timer.h>
 #include <Motor.h>
 
-#define BAUD 11500;
-
-#define CMD_ON              1
-#define CMD_OFF             2
-#define CMD_TIMED_ON        3
-#define CMD_IS_ON           4
-#define CMD_IS_OFF          5
-#define CMD_GET_PWM_VALUE   6
-#define CMD_GET_PWM_PERCENT 7
-#define CMD_PWM             8
-#define CMD_PWM_PERCENT     9
-#define CMD_RAMP_UP         10
-#define CMD_RAMP_DOWN       11
-#define CMD_RAMP            12
-#define CMD_RAMP_PERCENT    13
-
-// variables
-String serial_buffer = "";
+#define BAUD 11500
 Motor motor(13);
-int _cmd, _param1, _param2;
+String serial_buffer = "";
+int _cmd;
+unsigned long _param1, _param2;
 
 void setup() {
   Serial.begin(BAUD);
@@ -55,70 +40,70 @@ void loop() {
   }
 }
 
-void performAction(int cmd, int param1, int param2) {
+void performAction(int cmd, long param1, long param2) {
   switch(cmd) {
-    case CMD_ON: // 1
+    case 1: // ON
       motor.on();
       Serial.println("Motor ON");
       break;
-    case CMD_OFF: // 2
+    case 2: // OFF
       motor.off();
       Serial.println("Motor OFF");
       break;
-    case CMD_TIMED_ON: // 3
+    case 3: // TIMED_ON
       motor.timedOn(param1);
       Serial.print("Motor TIMED ON for ");
       Serial.print(param1);
       Serial.println("ms");
       break;
-    case CMD_IS_ON: // 4
+    case 4: // IS_ON
       Serial.print("Motor IS ON: ");
       Serial.println(motor.isOn());
       break;
-    case CMD_IS_OFF: // 5
+    case 5: // IS_OFF
       Serial.print("Motor IS OFF: ");
       Serial.println(motor.isOff());
       break;
-    case CMD_GET_PWM_VALUE: // 6
+    case 6: // GET_PWM_VALUE
       Serial.print("Motor GET PWM VALUE: ");
       Serial.println(motor.getPwm());
       break;
-    case CMD_GET_PWM_PERCENT: // 7
+    case 7: // GET_PWM_PERCENT
       Serial.print("Motor GET PWM PERCENT: ");
       Serial.print(motor.getPwmPercent());
       Serial.println("%");
       break;
-    case CMD_PWM: // 8
+    case 8: // PWM
       motor.setPwm(param1);
       Serial.print("Motor PWM: ");
       Serial.println(param1);
       break;
-    case CMD_PWM_PERCENT: // 9
+    case 9: // PWM_PERCENT
       motor.setPwmPercent(param1);
       Serial.print("Motor PWM PERCENT: ");
       Serial.print(param1);
       Serial.println("%");
       break;
-    case CMD_RAMP_UP: // 10
+    case 10: // RAMP_UP
       motor.rampUp(param1);
       Serial.print("Motor RAMP UP in ");
       Serial.print(param1);
       Serial.println("ms");
       break;
-    case CMD_RAMP_DOWN: // 11
+    case 11: // RAMP_DOWN
       motor.rampDown(param1);
       Serial.print("Motor RAMP DOWN in ");
       Serial.print(param1);
       Serial.println("ms");
       break;
-    case CMD_RAMP: // 12
+    case 12: // RAMP
       motor.ramp(param1, param2);
       Serial.print("Motor RAMP to ");
       Serial.print(param1);
       Serial.print(" in ");
       Serial.print(param2);
       Serial.println("ms");
-    case CMD_RAMP_PERCENT: // 13
+    case 13: // RAMP_PERCENT
       motor.rampPercent(param1, param2);
       Serial.print("Motor RAMP PERCENT to ");
       Serial.print(param1);

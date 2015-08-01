@@ -10,33 +10,38 @@
 class Motor {
   public:
     Motor(int pin);
-    void on();
-    void off();
+    void on(bool stop_everything = true);
+    void off(bool stop_everything = true);
     void update();
-    void timedOn(int timeout);
+    void timedOn(unsigned long timeout);
     bool isOn();
     bool isOff();
     int getPwm();
     int getPwmPercent();
     void setPwm(int value);
     void setPwmPercent(int value);
-    void rampUp(int timeout);
-    void rampDown(int timeout);
-    void ramp(int value, int timeout);
-    void rampPercent(int value, int timeout);
+    void rampUp(unsigned long timeout);
+    void rampDown(unsigned long timeout);
+    void ramp(int value, unsigned long timeout);
+    void rampPercent(int value, unsigned long timeout);
 
   private:
     int _pin;
     int _speed;
-    bool _ramping;
     int _start_speed;
     int _target_speed;
     bool _on;
     bool _timed_on;
+    bool _ramping;
     void _timedOn();
     void _ramp();
     bool _speedShouldChange();
     int _speedDifference();
+    void _stopTimedOn();
+    void _startTimedOn();
+    void _stopRamping();
+    void _startRamping();
+    void _stopEverything();
 };
 
 #endif

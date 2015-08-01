@@ -12,11 +12,17 @@ Motor::Motor(int pin) {
   _pin = pin;
 }
 
-void Motor::on() {
+void Motor::on(bool stop_everything) {
+  if(stop_everything) {
+    _stopEverything();
+  }
   setPwm(255);
 }
 
-void Motor::off() {
+void Motor::off(bool stop_everything) {
+  if(stop_everything) {
+    _stopEverything();
+  }
   setPwm(0);
 }
 
@@ -29,21 +35,20 @@ void Motor::update() {
   }
 }
 
-void Motor::timedOn(int timeout) {
-  _timed_on = true;
+void Motor::timedOn(unsigned long timeout) {
+  _stopEverything();
+  _startTimedOn();
   timer.setTimeout(timeout);
   timer.restart();
 }
 
 void Motor::_timedOn() {
   if(timer.isActive()) {
-    if(isOff()){
-      on();
-    }
+    on(false); // don't stop everything when turning on
   }
   else {
     off();
-    _timed_on = false;
+    _stopTimedOn();
   }
 }
 
@@ -75,25 +80,26 @@ void Motor::setPwmPercent(int value) {
   setPwm(int(value / 100.0 * 255));
 }
 
-void Motor::rampUp(int timeout) {
+void Motor::rampUp(unsigned long timeout) {
   ramp(255, timeout);
 }
 
-void Motor::rampDown(int timeout) {
+void Motor::rampDown(unsigned long timeout) {
   ramp(0, timeout);
 }
 
-void Motor::ramp(int value, int timeout) {
+void Motor::ramp(int value, unsigned long timeout) {
+  _stopEverything();
   _start_speed  = getPwm();
   _target_speed = value;
 
   if(_speedShouldChange()) {
-    _ramping = true;
+    _startRamping();
     timer.setTimeout(timeout);
     timer.restart();
   }
   else {
-    _ramping = false;
+    _stopRamping();
   }
 }
 
@@ -103,7 +109,7 @@ void Motor::_ramp() {
   }
   else {
     setPwm(_target_speed);
-    _ramping = false;
+    _stopRamping();
   }
 }
 
@@ -115,6 +121,27 @@ int Motor::_speedDifference() {
   return _target_speed - _start_speed;
 }
 
-void Motor::rampPercent(int value, int timeout) {
+void Motor::rampPercent(int value, unsigned long timeout) {
   ramp(int(value / 100.0 * 255), timeout);
+}
+
+void Motor::_stopRamping() {
+  _ramping = false;
+}
+
+void Motor::_startRamping() {
+  _ramping = true;
+}
+
+void Motor::_stopTimedOn() {
+  _timed_on = false;
+}
+
+void Motor::_startTimedOn() {
+  _timed_on = true;
+}
+
+void Motor::_stopEverything() {
+  _timed_on = false;
+  _ramping  = false;
 }
