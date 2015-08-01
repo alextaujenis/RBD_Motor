@@ -28,7 +28,7 @@ A simple, non-blocking, real-time Arduino library for controlling motors. It pro
 
 
 #Installation
-Download and install the Arduino Motor library along with this light-weight Arduino Timer library:
+Download and install this Arduino Motor library along with the Arduino Timer library below:
 
 [Arduino Timer Library (required)](https://github.com/alextaujenis/Timer) <- dependency
 
@@ -37,24 +37,27 @@ The Motor library requires the Timer library, but you are not required to use th
 #Documentation
 
 ##Public Methods
+These variable type definitions are removed below to make it easier to read: int pin; int value; unsigned long timeout;
 
-* [constructor(int pin)](https://github.com/alextaujenis/Motor#constructorint-pin)
+* [constructor(pin)](https://github.com/alextaujenis/Motor#constructorpin)
 * [update()](https://github.com/alextaujenis/Motor#update)
 * [on()](https://github.com/alextaujenis/Motor#on)
 * [off()](https://github.com/alextaujenis/Motor#off)
-* [timedOn(int timeout)](https://github.com/alextaujenis/Motor#timedonint-timeout)
+* [timedOn(timeout)](https://github.com/alextaujenis/Motor#timedontimeout)
 * [isOn()](https://github.com/alextaujenis/Motor#ison)
 * [isOff()](https://github.com/alextaujenis/Motor#isoff)
 * [getPwm()](https://github.com/alextaujenis/Motor#getpwm)
 * [getPwmPercent()](https://github.com/alextaujenis/Motor#getpwmpercent)
-* [setPwm(int value)](https://github.com/alextaujenis/Motor#setpwmint-value)
-* [setPwmPercent(int value)](https://github.com/alextaujenis/Motor#setpwmpercentint-value)
-* [rampUp(int timeout)](https://github.com/alextaujenis/Motor#rampupint-timeout)
-* [rampDown(int timeout)](https://github.com/alextaujenis/Motor#rampdownint-timeout)
-* [ramp(int value, int timeout)](https://github.com/alextaujenis/Motor#rampint-value-int-timeout)
-* [rampPercent(int value, int timeout)](https://github.com/alextaujenis/Motor#ramppercentint-value-int-timeout)
+* [setPwm(value)](https://github.com/alextaujenis/Motor#setpwmvalue)
+* [setPwmPercent(value)](https://github.com/alextaujenis/Motor#setpwmpercentvalue)
+* [rampUp(timeout)](https://github.com/alextaujenis/Motor#rampuptimeout)
+* [rampDown(timeout)](https://github.com/alextaujenis/Motor#rampdowntimeout)
+* [ramp(value, timeout)](https://github.com/alextaujenis/Motor#rampvalue-timeout)
+* [rampPercent(value, timeout)](https://github.com/alextaujenis/Motor#ramppercentvalue-timeout)
 
-##constructor(int pin)
+
+
+##constructor(pin)
 Create a new motor and pass in the Arduino pin number.
 
 ##update()
@@ -66,7 +69,7 @@ Start the motor at full power.
 ##off()
 Stop the motor.
 
-##timedOn(int timeout)
+##timedOn(timeout)
 Start the motor at full power and turn it off after the specified time in milliseconds.
 
 ##isOn()
@@ -81,27 +84,27 @@ Returns a value from 0 - 255 for the current motor power.
 ##getPwmPercent()
 Returns a value from 0 - 100 for the current motor power percentage.
 
-##setPwm(int value)
+##setPwm(value)
 Pass in a value from 0 - 255 to control the power of the motor.
 
-##setPwmPercent(int value)
+##setPwmPercent(value)
 Pass in a value from 0 - 100 to control the power percentage of the motor. This is essentially the same as setPwm() but with a smaller input scale.
 
-##rampUp(int timeout)
+##rampUp(timeout)
 Pass in a timeout in milliseconds for how long it will take to ramp from the current power to full power.
 
-##rampDown(int timeout)
+##rampDown(timeout)
 Pass in a timeout in milliseconds for how long it will take to ramp from the current power to full stop.
 
-##ramp(int value, int timeout)
+##ramp(value, timeout)
 Pass in a value from 0 - 255 to control the target power of the motor, and a timeout in milliseconds for how long it will take to ramp to that target power from the current power.
 
-##rampPercent(int value, int timeout)
+##rampPercent(value, timeout)
 Pass in a value from 0 - 100 to control the target power percentage of the motor, and a timeout in milliseconds for how long it will take to ramp to that target power percentage from the current power. This is essentially the same as ramp() but with a smaller input scale.
 
 
 #Example Sketch
-Load the example.ino to your Arduino and you can control a motor (actually led 13 by default) from text commands in a serial prompt connected at **11500 BAUD**.
+Load the [example.ino](https://github.com/alextaujenis/Motor/blob/master/example/example.ino) to your Arduino and you can control a motor (actually led 13 by default) from text commands in a serial prompt connected at **11500 BAUD**.
 
 **The serial interface below only controls the example sketch. Read the [Documentation](https://github.com/alextaujenis/Motor#documentation) to control motors for real!**
 
