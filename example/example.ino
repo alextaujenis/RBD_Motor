@@ -5,7 +5,7 @@
 #include <Timer.h>
 #include <Motor.h>
 
-#define BAUD 11500
+#define BAUD 115200
 Motor motor(13);
 String serial_buffer = "";
 int _cmd;

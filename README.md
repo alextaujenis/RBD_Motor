@@ -104,7 +104,7 @@ Pass in a value from 0 - 100 to control the target power percentage of the motor
 
 
 #Example Sketch
-Load the [example.ino](https://github.com/alextaujenis/Motor/blob/master/example/example.ino) to your Arduino and you can control a motor (actually led 13 by default) from text commands in a serial prompt connected at **11500 BAUD**.
+Load the [example.ino](https://github.com/alextaujenis/Motor/blob/master/example/example.ino) to your Arduino and you can control a motor (actually led 13 by default) from text commands in a serial prompt connected at **115200 BAUD**.
 
 **The serial interface below only controls the example sketch. Read the [Documentation](https://github.com/alextaujenis/Motor#documentation) to control motors for real!**
 
