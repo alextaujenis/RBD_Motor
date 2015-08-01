@@ -22,8 +22,9 @@ A simple, non-blocking, real-time Arduino library for controlling motors. It pro
       motor1.update();
       motor2.update();
 
-      // call the Documented motor commands here and interact in real-time
-      // you must manage program flow without delay(), or use the Timer Library below
+      // call the documented Motor library commands here and interact in real-time
+      // you must manage your program flow without delay() to keep the loop moving
+      // either manage millis() by hand, or check out the Timer library below
     }
 
 
@@ -32,12 +33,11 @@ Download and install this Arduino Motor library along with the Arduino Timer lib
 
 [Arduino Timer Library (required)](https://github.com/alextaujenis/Timer) <- dependency
 
-The Motor library requires the Timer library, but you are not required to use the Timer functions in your own sketchs. **Beware:** you need to keep the loop() moving for the Motor timed functions to work, and you **can't use delay()**. If you are managing millis() by hand; you should look into using the Timer [library functions](https://github.com/alextaujenis/Timer#documentation) in your own sketches to simplify things.
+The Motor library requires the Timer library, but you are not required to use the Timer functions in your own sketchs. **Beware:** you need to keep the loop() moving for the Motor timed functions to work, and you **can't use delay()**. If you are managing millis() by hand; you should look into using the Timer [library functions](https://github.com/alextaujenis/Timer#arduino-timer-library) in your own sketches to simplify things.
 
 #Documentation
 
 ##Public Methods
-These variable type definitions are removed below to make it easier to read: int pin; int value; unsigned long timeout;
 
 * [constructor(pin)](https://github.com/alextaujenis/Motor#constructorpin)
 * [update()](https://github.com/alextaujenis/Motor#update)
@@ -55,13 +55,11 @@ These variable type definitions are removed below to make it easier to read: int
 * [ramp(value, timeout)](https://github.com/alextaujenis/Motor#rampvalue-timeout)
 * [rampPercent(value, timeout)](https://github.com/alextaujenis/Motor#ramppercentvalue-timeout)
 
-
-
 ##constructor(pin)
 Create a new motor and pass in the Arduino pin number.
 
 ##update()
-This is a very fast and keeps the timed events on the motor running in real-time. This should be repeatedly called inside of loop().
+This is very fast and keeps the timed events on the motor running in real-time. This should be repeatedly called inside of loop().
 
 ##on()
 Start the motor at full power.
