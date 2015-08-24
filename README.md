@@ -193,4 +193,4 @@ The entire example serial protocol is essentially integers separated by commas w
 <hr />
 
 #License
-This code is avaliable under the [MIT License](http://opensource.org/licenses/mit-license.php).
+This code is available under the [MIT License](http://opensource.org/licenses/mit-license.php).
