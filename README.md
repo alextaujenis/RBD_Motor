@@ -11,11 +11,11 @@ A simple, non-blocking, real-time Arduino library for controlling motors. It pro
 
 ##How does it work?
 
-    #include <Timer.h>
-    #include <Motor.h>
+    #include <RBD_Timer.h>
+    #include <RBD_Motor.h>
 
-    Motor motor1(3); // pwm pin 3
-    Motor motor2(5); // pwm pin 5
+    RBD::Motor motor1(3); // pwm pin 3
+    RBD::Motor motor2(5); // pwm pin 5
 
     void loop() {
       // keep moving in real-time
@@ -31,29 +31,29 @@ A simple, non-blocking, real-time Arduino library for controlling motors. It pro
 #Installation
 Download and install this Arduino Motor library along with the Arduino Timer library below:
 
-[Arduino Timer Library (required)](https://github.com/alextaujenis/Timer) <- dependency
+[Arduino Timer Library (required)](https://github.com/alextaujenis/RBD_Timer) <- dependency
 
-The Motor library requires the Timer library, but you are not required to use the Timer functions in your own sketchs. **Beware:** you need to keep the loop() moving for the Motor timed functions to work, and you **can't use delay()**. If you are managing millis() by hand; you should look into using the Timer [library functions](https://github.com/alextaujenis/Timer#arduino-timer-library) in your own sketches to simplify things.
+The Motor library requires the Timer library, but you are not required to use the Timer functions in your own sketchs. **Beware:** you need to keep the loop() moving for the Motor timed functions to work, and you **can't use delay()**. If you are managing millis() by hand; you should look into using the Timer [library functions](https://github.com/alextaujenis/RBD_Timer#arduino-timer-library) in your own sketches to simplify things.
 
 #Documentation
 
 ##Public Methods
 
-* [constructor(pin)](https://github.com/alextaujenis/Motor#constructorpin)
-* [update()](https://github.com/alextaujenis/Motor#update)
-* [on()](https://github.com/alextaujenis/Motor#on)
-* [off()](https://github.com/alextaujenis/Motor#off)
-* [timedOn(timeout)](https://github.com/alextaujenis/Motor#timedontimeout)
-* [isOn()](https://github.com/alextaujenis/Motor#ison)
-* [isOff()](https://github.com/alextaujenis/Motor#isoff)
-* [getPwm()](https://github.com/alextaujenis/Motor#getpwm)
-* [getPwmPercent()](https://github.com/alextaujenis/Motor#getpwmpercent)
-* [setPwm(value)](https://github.com/alextaujenis/Motor#setpwmvalue)
-* [setPwmPercent(value)](https://github.com/alextaujenis/Motor#setpwmpercentvalue)
-* [rampUp(timeout)](https://github.com/alextaujenis/Motor#rampuptimeout)
-* [rampDown(timeout)](https://github.com/alextaujenis/Motor#rampdowntimeout)
-* [ramp(value, timeout)](https://github.com/alextaujenis/Motor#rampvalue-timeout)
-* [rampPercent(value, timeout)](https://github.com/alextaujenis/Motor#ramppercentvalue-timeout)
+* [constructor(pin)](#constructorpin)
+* [update()](#update)
+* [on()](#on)
+* [off()](#off)
+* [timedOn(timeout)](#timedontimeout)
+* [isOn()](#ison)
+* [isOff()](#isoff)
+* [getPwm()](#getpwm)
+* [getPwmPercent()](#getpwmpercent)
+* [setPwm(value)](#setpwmvalue)
+* [setPwmPercent(value)](#setpwmpercentvalue)
+* [rampUp(timeout)](#rampuptimeout)
+* [rampDown(timeout)](#rampdowntimeout)
+* [ramp(value, timeout)](#rampvalue-timeout)
+* [rampPercent(value, timeout)](#ramppercentvalue-timeout)
 
 ##constructor(pin)
 Create a new motor and pass in the Arduino pin number.
@@ -102,9 +102,9 @@ Pass in a value from 0 - 100 to control the target power percentage of the motor
 
 
 #Example Sketch
-Load the [example.ino](https://github.com/alextaujenis/Motor/blob/master/example/example.ino) to your Arduino and you can control a motor (actually led 13 by default) from text commands in a serial prompt connected at **115200 BAUD**.
+Load the [example.ino](/blob/master/example/example.ino) to your Arduino and you can control a motor (actually led 13 by default) from text commands in a serial prompt connected at **115200 BAUD**.
 
-**The serial interface below only controls the example sketch. Read the [Documentation](https://github.com/alextaujenis/Motor#documentation) to control motors for real!**
+**The serial interface below only controls the example sketch. Read the [Documentation](#documentation) to control motors for real!**
 
 The entire example serial protocol is essentially integers separated by commas with ; at the end. The first integer is to look up the command, then any integers after that are considered parameters to the command.
 
@@ -188,7 +188,7 @@ The entire example serial protocol is essentially integers separated by commas w
 
 <hr />
 
-**The serial interface above only controls the example sketch. Read the [Documentation](https://github.com/alextaujenis/Motor#documentation) to control motors for real!**
+**The serial interface above only controls the example sketch. Read the [Documentation](#documentation) to control motors for real!**
 
 <hr />
 

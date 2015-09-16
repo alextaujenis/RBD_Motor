@@ -1,12 +1,12 @@
-// Arduino Motor Example - Try all motor functions in real-time via serial commands (controls led 13 by default)
+// Arduino RBD Motor Example - Try all motor functions in real-time via serial commands (controls led 13 by default)
 // Copyright 2015 Alex Taujenis
 // MIT License
 
-#include <Timer.h>
-#include <Motor.h>
+#include <RBD_Timer.h>
+#include <RBD_Motor.h>
 
 #define BAUD 115200
-Motor motor(13);
+RBD::Motor motor(13);
 String serial_buffer = "";
 int _cmd;
 unsigned long _param1, _param2;
