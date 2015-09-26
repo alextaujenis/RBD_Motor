@@ -14,14 +14,14 @@ namespace RBD {
     _pin = pin;
   }
 
-  void Motor::on(bool stop_everything) {
+  void Motor::on(bool stop_everything) { // default: true
     if(stop_everything) {
       _stopEverything();
     }
     setPwm(255);
   }
 
-  void Motor::off(bool stop_everything) {
+  void Motor::off(bool stop_everything) { // default: true
     if(stop_everything) {
       _stopEverything();
     }
@@ -60,6 +60,10 @@ namespace RBD {
 
   bool Motor::isOff() {
     return !_on;
+  }
+
+  bool Motor::isFullOn() {
+    return getPwm() == 255;
   }
 
   int Motor::getPwm() {

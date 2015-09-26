@@ -46,6 +46,7 @@ The Motor library requires the Timer library, but you are not required to use th
 * [timedOn(timeout)](#timedontimeout)
 * [isOn()](#ison)
 * [isOff()](#isoff)
+* [isFullOn()](#isfullon)
 * [getPwm()](#getpwm)
 * [getPwmPercent()](#getpwmpercent)
 * [setPwm(value)](#setpwmvalue)
@@ -75,6 +76,9 @@ Returns true if the motor is running.
 
 ##isOff()
 Returns true if the motor is not running.
+
+##isFullOn()
+Returns true if the motor is running at full power.
 
 ##getPwm()
 Returns a value from 0 - 255 for the current motor power.

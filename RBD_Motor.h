@@ -17,6 +17,7 @@ namespace RBD {
       void timedOn(unsigned long timeout);
       bool isOn();
       bool isOff();
+      bool isFullOn();
       int getPwm();
       int getPwmPercent();
       void setPwm(int value);
