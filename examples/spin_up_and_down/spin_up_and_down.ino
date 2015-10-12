@@ -1,9 +1,10 @@
-// Arduino RBD Motor Example - Spin a motor up and then down.
+// Arduino RBD Motor Library v1.0.0 Example - Spin a motor up and down in real time with events.
+// https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
 
-#include <RBD_Timer.h>
-#include <RBD_Motor.h>
+#include <RBD_Timer.h> // https://github.com/alextaujenis/RBD_Timer
+#include <RBD_Motor.h> // https://github.com/alextaujenis/RBD_Motor
 
 RBD::Motor motor(3); // PWM pin 3
 

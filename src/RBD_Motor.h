@@ -1,4 +1,5 @@
-// Arduino RBD Motor Library - A simple, non-blocking, real-time library for controlling motors
+// Arduino RBD Motor Library v1.0.0 - Control many motors in real-time without delay.
+// https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
 

@@ -1,10 +1,11 @@
-// Arduino RBD Motor Library - A simple, non-blocking, real-time library for controlling motors
+// Arduino RBD Motor Library v1.0.0 - Control many motors in real-time without delay.
+// https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
 
 #include <Arduino.h>
-#include <RBD_Motor.h>
-#include <RBD_Timer.h>
+#include <RBD_Timer.h> // https://github.com/alextaujenis/RBD_Timer
+#include <RBD_Motor.h> // https://github.com/alextaujenis/RBD_Motor
 
 namespace RBD {
 
@@ -151,7 +152,6 @@ namespace RBD {
   int Motor::_speedDifference() {
     return _target_speed - _start_speed;
   }
-
 
   void Motor::_stopRamping() {
     _ramping = false;

@@ -1,200 +1,263 @@
 #Arduino Motor Library
-A simple, non-blocking, real-time Arduino library for controlling motors. It provides basic control along with more advanced features such as precision easing of motor power over relative time. Control an (almost) unlimited number of motors while seamlessly easing their speeds across dynamic transitions.
+Control many motors in real-time without delay using commands like [on()](#on), [off()](#off), [timedOn()](#timedontimeout), and [ramp()](#rampvalue-timeout). Fire custom events when the motor has reached the target speed with [onTargetSpeed()](#ontargetspeed). Motors must be correctly wired to PWM enabled Arduino pins to work with this library.
 
-##Example
+##Real-Time Library
 
-0. Tell a motor to spin at 30%.
-0. Ask it to slow down to 25% over the course of 3 seconds.
-0. Then, 1 second later change your mind and ask it to spin up to 80% over the course of 2 seconds.
-0. The motor speed will transition smoothly across all requests.
-0. You can control many motors at the same time, all with unique parameters.
+This real-time library requires that you manage the flow of your program without delay() or interrupts. Check out this [Arduino Timer Library](https://github.com/alextaujenis/RBD_Timer) if you are managing millis() by hand.
 
-##How does it work?
+##Example Setup
+
+0. Install this Motor Library and the [RBD::Timer Library](https://github.com/alextaujenis/RBD_Timer) dependency
+0. Correctly wire and provide external power to a motor attached to Arduino PWM pin 3
+0. Load the example sketch on to an Arduino
+0. Watch the motor spin up and down without delay
+
+**Example Sketch**:
 
     #include <RBD_Timer.h>
     #include <RBD_Motor.h>
 
-    RBD::Motor motor1(3); // pwm pin 3
-    RBD::Motor motor2(5); // pwm pin 5
+    RBD::Motor motor(3); // PWM pin 3
 
-    void loop() {
-      // keep moving in real-time
-      motor1.update();
-      motor2.update();
-
-      // call the documented Motor library commands here and interact in real-time
-      // you must manage your program flow without delay() to keep the loop moving
-      // either manage millis() by hand, or check out the Timer library below
+    void setup() {
+      motor.rampUp(1000);
     }
 
+    void loop() {
+      motor.update();
 
-#Installation
-Download and install this Arduino Motor library along with the Arduino Timer library below:
-
-[Arduino Timer Library (required)](https://github.com/alextaujenis/RBD_Timer) <- dependency
-
-The Motor library requires the Timer library, but you are not required to use the Timer functions in your own sketchs. **Beware:** you need to keep the loop() moving for the Motor timed functions to work, and you **can't use delay()**. If you are managing millis() by hand; you should look into using the Timer [library functions](https://github.com/alextaujenis/RBD_Timer#arduino-timer-library) in your own sketches to simplify things.
+      if(motor.onTargetSpeed()) {
+        if(motor.isOn()) {
+          motor.rampDown(1000);
+        }
+        if(motor.isOff()) {
+          motor.rampUp(1000);
+        }
+      }
+    }
 
 #Documentation
 
 ##Public Methods
 
 * [constructor(pin)](#constructorpin)
-* [update()](#update)
+<hr />
 * [on()](#on)
 * [off()](#off)
-* [timedOn(timeout)](#timedontimeout)
-* [isOn()](#ison)
-* [isOff()](#isoff)
-* [isFullOn()](#isfullon)
-* [getPwm()](#getpwm)
-* [getPwmPercent()](#getpwmpercent)
 * [setPwm(value)](#setpwmvalue)
 * [setPwmPercent(value)](#setpwmpercentvalue)
+<hr />
+* [isOn()](#ison)
+* [isOff()](#isoff)
+* [getPwm()](#getpwm)
+* [getPwmPercent()](#getpwmpercent)
+* [isPwm(value)](#ispwmvalue)
+* [isPwmPercent(value)](#ispwmpercentvalue)
+<hr />
+* [update()](#update)
+* [timedOn(timeout)](#timedontimeout)
 * [rampUp(timeout)](#rampuptimeout)
 * [rampDown(timeout)](#rampdowntimeout)
 * [ramp(value, timeout)](#rampvalue-timeout)
 * [rampPercent(value, timeout)](#ramppercentvalue-timeout)
+<hr />
+* [onTargetSpeed()](#ontargetspeed)
 
 ##constructor(pin)
 Create a new motor and pass in the Arduino pin number.
 
-##update()
-This is very fast and keeps the timed events on the motor running in real-time. This should be repeatedly called inside of loop().
+    RBD::Motor motor(3); // pwm pin 3
+
+    void setup() {
+      ...
+    }
 
 ##on()
-Start the motor at full power.
+Start the motor at full speed.
+
+    void setup() {
+      motor.on();
+    }
 
 ##off()
 Stop the motor.
 
-##timedOn(timeout)
-Start the motor at full power and turn it off after the specified time in milliseconds.
-
-##isOn()
-Returns true if the motor is running.
-
-##isOff()
-Returns true if the motor is not running.
-
-##isFullOn()
-Returns true if the motor is running at full power.
-
-##getPwm()
-Returns a value from 0 - 255 for the current motor power.
-
-##getPwmPercent()
-Returns a value from 0 - 100 for the current motor power percentage.
+    void setup() {
+      motor.off();
+    }
 
 ##setPwm(value)
-Pass in a value from 0 - 255 to control the power of the motor.
+Pass in an integer from 0 - 255 to control the speed of the motor.
+
+    void setup() {
+      motor.setPwm(85); // one-third speed
+    }
 
 ##setPwmPercent(value)
-Pass in a value from 0 - 100 to control the power percentage of the motor. This is essentially the same as setPwm() but with a smaller input scale.
+Pass in an integer from 0 - 100 to control the speed percentage of the motor. This is essentially the same as [setPwm()](#setpwmvalue) but with a smaller input scale.
+
+    void setup() {
+      motor.setPwmPercent(50); // half speed
+    }
+
+##isOn()
+Returns true if the motor is running at 100% speed.
+
+    void setup() {
+      motor.on();
+    }
+
+    void loop() {
+      Serial.println(motor.isOn());
+    }
+
+##isOff()
+Returns true if the motor is running at 0% speed.
+
+    void setup() {
+      motor.off();
+    }
+
+    void loop() {
+      Serial.println(motor.isOff());
+    }
+
+##getPwm()
+Returns an integer from 0 - 255 for the current motor speed.
+
+    void setup() {
+      motor.setPwm(123);
+    }
+
+    void loop() {
+      Serial.println(motor.getPwm());
+    }
+
+##getPwmPercent()
+Returns an integer from 0 - 100 for the current motor speed percentage.
+
+    void setup() {
+      motor.setPwmPercent(45);
+    }
+
+    void loop() {
+      Serial.println(motor.getPwmPercent());
+    }
+
+##isPwm(value)
+Provide an integer from 0 to 255 and this will return true if it's equal to the current [getPwm()](#getpwm).
+
+    void setup() {
+      motor.ramp(99, 1000);
+    }
+
+    void loop() {
+      motor.update()
+
+      if(motor.onTargetSpeed()) {
+        if(motor.isPwm(99)) {
+          ...
+        }
+      }
+    }
+
+##isPwmPercent(value)
+Provide an integer from 0 to 100 and this will return true if it's equal to the current [getPwmPercent()](#getpwmpercent).
+
+    void setup() {
+      motor.rampPercent(45, 1000);
+    }
+
+    void loop() {
+      motor.update()
+
+      if(motor.onTargetSpeed()) {
+        if(motor.isPwmPercent(45)) {
+          ...
+        }
+      }
+    }
+
+##update()
+Keep the real-time functions processing with each loop().
+
+    void loop() {
+      motor.update();
+    }
+
+##timedOn(timeout)
+Start the motor at full speed and turn it off after the specified time in milliseconds.
+
+    void setup() {
+      motor.timedOn(5000);
+    }
+
+    void loop() {
+      motor.update();
+    }
 
 ##rampUp(timeout)
-Pass in a timeout in milliseconds for how long it will take to ramp from the current power to full power.
+Pass in a timeout in milliseconds for how long it will take to ramp from the current speed to full speed with a linear transition.
+
+    void setup() {
+      motor.off();
+      motor.rampUp(3000);
+    }
+
+    void loop() {
+      motor.update();
+    }
 
 ##rampDown(timeout)
-Pass in a timeout in milliseconds for how long it will take to ramp from the current power to full stop.
+Pass in a timeout in milliseconds for how long it will take to ramp from the current speed to full stop with a linear transition.
+
+    void setup() {
+      motor.on();
+      motor.rampDown(3000);
+    }
+
+    void loop() {
+      motor.update();
+    }
 
 ##ramp(value, timeout)
-Pass in a value from 0 - 255 to control the target power of the motor, and a timeout in milliseconds for how long it will take to ramp to that target power from the current power.
+Pass in a value from 0 - 255 to control the target speed of the motor, and a timeout in milliseconds for how long it will take to ramp to that target speed from the current speed with a linear transition.
+
+    void setup() {
+      motor.ramp(85, 2000); // one-third speed in 2 seconds
+    }
+
+    void loop() {
+      motor.update();
+    }
 
 ##rampPercent(value, timeout)
-Pass in a value from 0 - 100 to control the target power percentage of the motor, and a timeout in milliseconds for how long it will take to ramp to that target power percentage from the current power. This is essentially the same as ramp() but with a smaller input scale.
+Pass in a value from 0 - 100 to control the target speed of the motor, and a timeout in milliseconds for how long it will take to ramp to that target speed from the current speed with a linear transition. This is essentially the same as [ramp()](#rampvalue-timeout) but with a smaller input scale.
 
+    void setup() {
+      motor.rampPercent(50, 1000); // half speed in 1 second
+    }
 
-#Example Sketch
-Load the [example.ino](/blob/master/example/example.ino) to your Arduino and you can control a motor (actually led 13 by default) from text commands in a serial prompt connected at **115200 BAUD**.
+    void loop() {
+      motor.update();
+    }
 
-**The serial interface below only controls the example sketch. Read the [Documentation](#documentation) to control motors for real!**
+##onTargetSpeed()
+This method will return true once the motor hits the target speed set in any of the real-time methods. This method will return false until a new target speed is set (with a real-time method) and then achieved by the motor.
 
-The entire example serial protocol is essentially integers separated by commas with ; at the end. The first integer is to look up the command, then any integers after that are considered parameters to the command.
+    void setup() {
+      motor.off();
+      motor.rampPercent(50, 5000);
+    }
 
-<hr />
+    void loop() {
+      motor.update();
 
-####1 ON: Turn on the motor:
-
-    1;
-
-<hr />
-
-####2 OFF: Turn off the motor:
-
-    2;
-
-<hr />
-
-####3 TIMED_ON: Turn on the motor for 1 second:
-
-    3,1000;
-
-<hr />
-
-####4 IS_ON: Is the motor on?
-
-    4;
-
-<hr />
-
-####5 IS_OFF: Is the motor off?
-
-    5;
-
-<hr />
-
-####6 GET_PWM: How fast is the motor running (0-255)?
-
-    6;
-
-<hr />
-
-####7 GET\_PWM\_PERCENT: How fast is the motor running (0-100)?
-
-    7;
-
-<hr />
-
-####8 SET_PWM: Make the motor go about half power (0-255):
-
-    8,127;
-
-<hr />
-
-####9 SET\_PWM\_PERCENT: Make the motor go half power (0-100):
-
-    9,50;
-
-<hr />
-
-####10 RAMP_UP: Ramp the motor up to full power in 3 seconds:
-
-    10,3000;
-
-<hr />
-
-####11 RAMP_DOWN: Ramp the motor down to no power in 5 seconds:
-
-    11,5000;
-
-<hr />
-
-####12 RAMP: Ramp the motor to about half power (0-255) in a quarter second:
-
-    12,127,250;
-
-<hr />
-
-####13 RAMP_PERCENT: Ramp the motor to 3/4 power (0-100) in 9 seconds:
-
-    13,75,9000;
-
-<hr />
-
-**The serial interface above only controls the example sketch. Read the [Documentation](#documentation) to control motors for real!**
-
-<hr />
+      if(motor.onTargetSpeed()) {
+        // code only runs once per event
+        Serial.println("Target Speed");
+      }
+    }
 
 #License
 This code is available under the [MIT License](http://opensource.org/licenses/mit-license.php).
