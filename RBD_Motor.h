@@ -17,16 +17,17 @@ namespace RBD {
       void timedOn(unsigned long timeout);
       bool isOn();
       bool isOff();
-      bool isFullOn();
       int getPwm();
       int getPwmPercent();
+      bool isPwm(int value);
+      bool isPwmPercent(int value);
       void setPwm(int value);
       void setPwmPercent(int value);
       void rampUp(unsigned long timeout);
       void rampDown(unsigned long timeout);
       void ramp(int value, unsigned long timeout);
       void rampPercent(int value, unsigned long timeout);
-
+      bool onTargetSpeed();
     private:
       int _pin;
       int _speed;
@@ -35,6 +36,7 @@ namespace RBD {
       bool _on;
       bool _timed_on;
       bool _ramping;
+      bool _hit_target_speed = false;
       void _timedOn();
       void _ramp();
       bool _speedShouldChange();
