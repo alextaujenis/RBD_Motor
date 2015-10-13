@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.0.1 - Control many motors in real-time without delay.
+// Arduino RBD Motor Library v1.0.2 - Control many motors in real-time without delay.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -82,7 +82,6 @@ namespace RBD {
   void Motor::setPwm(int value) {
     if(value > -1 && value < 256) {
       analogWrite(_pin, value);
-      _on = bool(value);
       _speed = value;
     }
   }

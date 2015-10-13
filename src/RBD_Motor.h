@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.0.1 - Control many motors in real-time without delay.
+// Arduino RBD Motor Library v1.0.2 - Control many motors in real-time without delay.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -34,7 +34,6 @@ namespace RBD {
       int _speed;
       int _start_speed;
       int _target_speed;
-      bool _on;
       bool _timed_on;
       bool _ramping;
       bool _hit_target_speed = false;
