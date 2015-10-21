@@ -1,8 +1,8 @@
-#Arduino Motor Library v1.0.3
+#Arduino Motor Library v1.0.4
 Control many motors without delay using commands like on(), off(), timedOn(), and ramp().
 
-* [Documentation](https://alextaujenis.github.io/RobotsBigData/docs-arduino-motor.html)
-* [Project Website](https://alextaujenis.github.io/RobotsBigData/)
+* [Documentation](http://robotsbigdata.com/docs-arduino-motor.html)
+* [Project Website](http://robotsbigdata.com)
 * [Report an Issue](https://github.com/alextaujenis/RBD_Motor/issues/new)*
 
 \**Please include your Arduino make/model and IDE version when reporting an issue with this library.*

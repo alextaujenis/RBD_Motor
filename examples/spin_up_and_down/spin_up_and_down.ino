@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.0.3 Example - Spin a motor up and down with events.
+// Arduino RBD Motor Library v1.0.4 Example - Spin a motor up and down with events.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
