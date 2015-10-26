@@ -1,5 +1,5 @@
-#Arduino Motor Library v1.0.4
-Control many motors without delay using commands like on(), off(), timedOn(), and ramp().
+#Arduino Motor Library v1.1.0
+Control many motors without delay with commands like on(), off(), forward(), reverse(), and ramp().
 
 * [Documentation](http://robotsbigdata.com/docs-arduino-motor.html)
 * [Download Library](https://github.com/alextaujenis/RBD_Motor/raw/master/extras/RBD_Motor.zip)

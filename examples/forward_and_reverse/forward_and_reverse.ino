@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.1.0 Example - Spin a motor up and down with events.
+// Arduino RBD Motor Library v1.1.0 Example - Spin a motor forward and reverse with events.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -6,10 +6,11 @@
 #include <RBD_Timer.h> // https://github.com/alextaujenis/RBD_Timer
 #include <RBD_Motor.h> // https://github.com/alextaujenis/RBD_Motor
 
-RBD::Motor motor(3); // pwm pin
+// motor shield
+RBD::Motor motor(9, 11, 8); // pwm pin, forward pin, reverse pin
 
 void setup() {
-  motor.rampUp(1000);
+  motor.rampUp(5000);
 }
 
 void loop() {
@@ -17,10 +18,11 @@ void loop() {
 
   if(motor.onTargetSpeed()) {
     if(motor.isOn()) {
-      motor.rampDown(1000);
+      motor.rampDown(3000);
     }
     else {
-      motor.rampUp(1000);
+      motor.toggleDirection();
+      motor.rampUp(5000);
     }
   }
 }

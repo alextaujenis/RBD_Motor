@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.0.4 - Control many motors.
+// Arduino RBD Motor Library v1.1.0 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -11,8 +11,21 @@ namespace RBD {
 
   Timer _timer;
 
-  Motor::Motor(int pin) {
-    _pin = pin;
+  Motor::Motor(int pwm_pin) {
+    _pwm_pin       = pwm_pin;
+    _bidirectional = false;
+    pinMode(_pwm_pin, OUTPUT);
+  }
+
+  Motor::Motor(int pwm_pin, int forward_pin, int reverse_pin) {
+    _pwm_pin        = pwm_pin;
+    _forward_pin    = forward_pin;
+    _reverse_pin    = reverse_pin;
+    _bidirectional  = true;
+    pinMode(_pwm_pin, OUTPUT);
+    pinMode(_forward_pin, OUTPUT);
+    pinMode(_reverse_pin, OUTPUT);
+    forward();
   }
 
   void Motor::on(bool stop_everything) { // default: true
@@ -27,6 +40,87 @@ namespace RBD {
       _stopEverything();
     }
     setPwm(0);
+  }
+
+  void Motor::forward() {
+    if(_bidirectional) {
+      _is_forward = true;
+      off();
+      digitalWrite(_reverse_pin, LOW);
+      digitalWrite(_forward_pin, HIGH);
+    }
+  }
+
+  void Motor::reverse() {
+    if(_bidirectional) {
+      _is_forward = false;
+      off();
+      digitalWrite(_forward_pin, LOW);
+      digitalWrite(_reverse_pin, HIGH);
+    }
+  }
+
+  bool Motor::isForward() {
+    return _is_forward;
+  }
+
+  bool Motor::isReverse() {
+    return !_is_forward;
+  }
+
+  bool Motor::onForward() {
+    if(_bidirectional) {
+      if(isForward()) {
+        if(!_has_been_forward) {
+          _has_been_forward = true;
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      else {
+        _has_been_forward = false;
+        return false;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+
+  bool Motor::onReverse() {
+    if(_bidirectional) {
+      if(isReverse()) {
+        if(!_has_been_reverse) {
+          _has_been_reverse = true;
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      else {
+        _has_been_reverse = false;
+        return false;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+
+  void Motor::toggleDirection() {
+    if(_bidirectional) {
+      _is_forward = !_is_forward;
+
+      if(isForward()) {
+        forward();
+      }
+      else {
+        reverse();
+      }
+    }
   }
 
   void Motor::update() {
@@ -81,7 +175,7 @@ namespace RBD {
 
   void Motor::setPwm(int value) {
     if(value > -1 && value < 256) {
-      analogWrite(_pin, value);
+      analogWrite(_pwm_pin, value);
       _speed = value;
     }
   }
