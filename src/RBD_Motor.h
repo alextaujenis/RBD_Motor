@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.1.0 - Control many motors.
+// Arduino RBD Motor Library v1.1.1 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -7,6 +7,7 @@
 #define RBD_MOTOR_H
 
 #include <Arduino.h>
+#include <RBD_Timer.h>
 
 namespace RBD {
   class Motor {
@@ -60,6 +61,7 @@ namespace RBD {
       void _stopRamping();
       void _startRamping();
       void _stopEverything();
+      Timer _timer;
   };
 }
 #endif

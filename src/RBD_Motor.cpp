@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.1.0 - Control many motors.
+// Arduino RBD Motor Library v1.1.1 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -8,10 +8,8 @@
 #include <RBD_Motor.h> // https://github.com/alextaujenis/RBD_Motor
 
 namespace RBD {
-
-  Timer _timer;
-
-  Motor::Motor(int pwm_pin) {
+  Motor::Motor(int pwm_pin)
+  : _timer() {
     _pwm_pin       = pwm_pin;
     _bidirectional = false;
     pinMode(_pwm_pin, OUTPUT);
