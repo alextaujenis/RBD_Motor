@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.1.1 Example - Spin a motor forward and reverse with events.
+// Arduino RBD Motor Library v2.0.0 Example - Spin a motor forward and reverse with events.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License

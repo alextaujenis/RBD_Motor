@@ -10,12 +10,10 @@ isOn	KEYWORD2
 isOff	KEYWORD2
 isForward	KEYWORD2
 isReverse	KEYWORD2
-getPwm	KEYWORD2
-getPwmPercent	KEYWORD2
-isPwm	KEYWORD2
-isPwmPercent	KEYWORD2
-setPwm	KEYWORD2
-setPwmPercent	KEYWORD2
+getSpeed	KEYWORD2
+getSpeedPercent	KEYWORD2
+setSpeed	KEYWORD2
+setSpeedPercent	KEYWORD2
 rampUp	KEYWORD2
 rampDown	KEYWORD2
 ramp	KEYWORD2

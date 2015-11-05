@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.1.1 - Control many motors.
+// Arduino RBD Motor Library v2.0.0 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -30,14 +30,14 @@ namespace RBD {
     if(stop_everything) {
       _stopEverything();
     }
-    setPwm(255);
+    setSpeed(255);
   }
 
   void Motor::off(bool stop_everything) { // default: true
     if(stop_everything) {
       _stopEverything();
     }
-    setPwm(0);
+    setSpeed(0);
   }
 
   void Motor::forward() {
@@ -148,38 +148,30 @@ namespace RBD {
   }
 
   bool Motor::isOn() {
-    return getPwm() == 255;
+    return getSpeed() == 255;
   }
 
   bool Motor::isOff() {
-    return getPwm() == 0;
+    return getSpeed() == 0;
   }
 
-  int Motor::getPwm() {
+  int Motor::getSpeed() {
     return _speed;
   }
 
-  int Motor::getPwmPercent() {
-    return int((getPwm() / 255.0 * 100) + 0.5); // add 0.5 for correct rounding
+  int Motor::getSpeedPercent() {
+    return int((getSpeed() / 255.0 * 100) + 0.5); // add 0.5 for correct rounding
   }
 
-  bool Motor::isPwm(int value) {
-    return getPwm() == value;
-  }
-
-  bool Motor::isPwmPercent(int value) {
-    return getPwmPercent() == value;
-  }
-
-  void Motor::setPwm(int value) {
+  void Motor::setSpeed(int value) {
     if(value > -1 && value < 256) {
       analogWrite(_pwm_pin, value);
       _speed = value;
     }
   }
 
-  void Motor::setPwmPercent(int value) {
-    setPwm(int(value / 100.0 * 255));
+  void Motor::setSpeedPercent(int value) {
+    setSpeed(int(value / 100.0 * 255));
   }
 
   void Motor::rampUp(unsigned long timeout) {
@@ -192,7 +184,7 @@ namespace RBD {
 
   void Motor::ramp(int value, unsigned long timeout) {
     _stopEverything();
-    _start_speed  = getPwm();
+    _start_speed  = getSpeed();
     _target_speed = value;
 
     if(_speedShouldChange()) {
@@ -228,10 +220,10 @@ namespace RBD {
 
   void Motor::_ramp() {
     if(_timer.isActive()) {
-      setPwm(int(_start_speed + (_timer.getPercentValue() / 100.0 * _speedDifference())));
+      setSpeed(int(_start_speed + (_timer.getPercentValue() / 100.0 * _speedDifference())));
     }
     else {
-      setPwm(_target_speed);
+      setSpeed(_target_speed);
       _stopRamping();
     }
   }

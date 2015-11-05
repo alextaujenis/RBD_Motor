@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v1.1.1 - Control many motors.
+// Arduino RBD Motor Library v2.0.0 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -25,12 +25,10 @@ namespace RBD {
       bool isOff();
       bool isForward();
       bool isReverse();
-      int getPwm();
-      int getPwmPercent();
-      bool isPwm(int value);
-      bool isPwmPercent(int value);
-      void setPwm(int value);
-      void setPwmPercent(int value);
+      int getSpeed();
+      int getSpeedPercent();
+      void setSpeed(int value);
+      void setSpeedPercent(int value);
       void rampUp(unsigned long timeout);
       void rampDown(unsigned long timeout);
       void ramp(int value, unsigned long timeout);
