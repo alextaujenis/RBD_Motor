@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v2.0.0 - Control many motors.
+// Arduino RBD Motor Library v2.0.1 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -8,6 +8,7 @@
 #include <RBD_Motor.h> // https://github.com/alextaujenis/RBD_Motor
 
 namespace RBD {
+  // constructor
   Motor::Motor(int pwm_pin)
   : _timer() {
     _pwm_pin       = pwm_pin;
@@ -15,6 +16,7 @@ namespace RBD {
     pinMode(_pwm_pin, OUTPUT);
   }
 
+  // overloaded constructor for bidirectional control
   Motor::Motor(int pwm_pin, int forward_pin, int reverse_pin) {
     _pwm_pin        = pwm_pin;
     _forward_pin    = forward_pin;
@@ -137,16 +139,6 @@ namespace RBD {
     _timer.restart();
   }
 
-  void Motor::_timedOn() {
-    if(_timer.isActive()) {
-      on(false); // don't stop everything when turning on
-    }
-    else {
-      off();
-      _stopTimedOn();
-    }
-  }
-
   bool Motor::isOn() {
     return getSpeed() == 255;
   }
@@ -217,6 +209,16 @@ namespace RBD {
 
 
   // private
+
+  void Motor::_timedOn() {
+    if(_timer.isActive()) {
+      on(false); // don't stop everything when turning on
+    }
+    else {
+      off();
+      _stopTimedOn();
+    }
+  }
 
   void Motor::_ramp() {
     if(_timer.isActive()) {

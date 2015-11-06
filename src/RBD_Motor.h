@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v2.0.0 - Control many motors.
+// Arduino RBD Motor Library v2.0.1 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
