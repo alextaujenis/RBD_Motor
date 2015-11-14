@@ -1,4 +1,4 @@
-// Arduino RBD Motor Library v2.0.1 - Control many motors.
+// Arduino RBD Motor Library v2.1.0 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
 // Copyright 2015 Alex Taujenis
 // MIT License
@@ -29,17 +29,11 @@ namespace RBD {
   }
 
   void Motor::on(bool stop_everything) { // default: true
-    if(stop_everything) {
-      _stopEverything();
-    }
-    setSpeed(255);
+    setSpeed(255, stop_everything);
   }
 
   void Motor::off(bool stop_everything) { // default: true
-    if(stop_everything) {
-      _stopEverything();
-    }
-    setSpeed(0);
+    setSpeed(0, stop_everything);
   }
 
   void Motor::forward() {
@@ -155,15 +149,24 @@ namespace RBD {
     return int((getSpeed() / 255.0 * 100) + 0.5); // add 0.5 for correct rounding
   }
 
-  void Motor::setSpeed(int value) {
+  void Motor::setSpeed(int value, bool stop_everything) { // default: true
     if(value > -1 && value < 256) {
-      analogWrite(_pwm_pin, value);
-      _speed = value;
+      if(stop_everything) {
+        _stopEverything();
+      }
+      else {
+        _stop_events = false;
+      }
+
+      if(_speed != value) {
+        _speed = value;
+        analogWrite(_pwm_pin, _speed);
+      }
     }
   }
 
-  void Motor::setSpeedPercent(int value) {
-    setSpeed(int(value / 100.0 * 255));
+  void Motor::setSpeedPercent(int value, bool stop_everything) { // default: true
+    setSpeed(int(value / 100.0 * 255), stop_everything);
   }
 
   void Motor::rampUp(unsigned long timeout) {
@@ -194,7 +197,7 @@ namespace RBD {
   }
 
   bool Motor::onTargetSpeed() {
-    if(_timer.isExpired() && !_timed_on && !_ramping) {
+    if(_timer.isExpired() && !_timed_on && !_ramping && !_stop_events) {
       if(!_hit_target_speed) {
         _hit_target_speed = true;
         return true;
@@ -222,10 +225,10 @@ namespace RBD {
 
   void Motor::_ramp() {
     if(_timer.isActive()) {
-      setSpeed(int(_start_speed + (_timer.getPercentValue() / 100.0 * _speedDifference())));
+      setSpeed(int(_start_speed + (_timer.getPercentValue() / 100.0 * _speedDifference())), false); // don't stop everything
     }
     else {
-      setSpeed(_target_speed);
+      setSpeed(_target_speed, false); // don't stop everything
       _stopRamping();
     }
   }
@@ -255,7 +258,8 @@ namespace RBD {
   }
 
   void Motor::_stopEverything() {
-    _timed_on = false;
-    _ramping  = false;
+    _timed_on    = false;
+    _ramping     = false;
+    _stop_events = true;
   }
 }
