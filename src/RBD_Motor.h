@@ -1,6 +1,6 @@
-// Arduino RBD Motor Library v2.1.0 - Control many motors.
+// Arduino RBD Motor Library v2.1.1 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
-// Copyright 2015 Alex Taujenis
+// Copyright 2016 Alex Taujenis
 // MIT License
 
 #ifndef RBD_MOTOR_H
@@ -14,8 +14,8 @@ namespace RBD {
     public:
       Motor(int pwm_pin);
       Motor(int pwm_pin, int forward_pin, int reverse_pin);
-      void on(bool stop_everything = true);
-      void off(bool stop_everything = true);
+      void on(bool _stop_everything = true);
+      void off(bool _stop_everything = true);
       void forward();
       void reverse();
       void toggleDirection();
@@ -27,8 +27,8 @@ namespace RBD {
       bool isReverse();
       int getSpeed();
       int getSpeedPercent();
-      void setSpeed(int value, bool stop_everything = true);
-      void setSpeedPercent(int value, bool stop_everything = true);
+      void setSpeed(int value, bool _stop_everything = true);
+      void setSpeedPercent(int value, bool _stop_everything = true);
       void rampUp(unsigned long timeout);
       void rampDown(unsigned long timeout);
       void ramp(int value, unsigned long timeout);

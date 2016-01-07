@@ -1,6 +1,6 @@
-// Arduino RBD Motor Library v2.1.0 - Control many motors.
+// Arduino RBD Motor Library v2.1.1 - Control many motors.
 // https://github.com/alextaujenis/RBD_Motor
-// Copyright 2015 Alex Taujenis
+// Copyright 2016 Alex Taujenis
 // MIT License
 
 #include <Arduino.h>
@@ -17,7 +17,8 @@ namespace RBD {
   }
 
   // overloaded constructor for bidirectional control
-  Motor::Motor(int pwm_pin, int forward_pin, int reverse_pin) {
+  Motor::Motor(int pwm_pin, int forward_pin, int reverse_pin)
+  : _timer() {
     _pwm_pin        = pwm_pin;
     _forward_pin    = forward_pin;
     _reverse_pin    = reverse_pin;
@@ -28,12 +29,12 @@ namespace RBD {
     forward();
   }
 
-  void Motor::on(bool stop_everything) { // default: true
-    setSpeed(255, stop_everything);
+  void Motor::on(bool _stop_everything) { // default: true
+    setSpeed(255, _stop_everything);
   }
 
-  void Motor::off(bool stop_everything) { // default: true
-    setSpeed(0, stop_everything);
+  void Motor::off(bool _stop_everything) { // default: true
+    setSpeed(0, _stop_everything);
   }
 
   void Motor::forward() {
@@ -66,42 +67,32 @@ namespace RBD {
     if(_bidirectional) {
       if(isForward()) {
         if(!_has_been_forward) {
-          _has_been_forward = true;
-          return true;
+          return _has_been_forward = true;
         }
-        else {
-          return false;
-        }
-      }
-      else {
-        _has_been_forward = false;
+        // else
         return false;
       }
+      // else
+      return _has_been_forward = false;
     }
-    else {
-      return false;
-    }
+    // else
+    return false;
   }
 
   bool Motor::onReverse() {
     if(_bidirectional) {
       if(isReverse()) {
         if(!_has_been_reverse) {
-          _has_been_reverse = true;
-          return true;
+          return _has_been_reverse = true;
         }
-        else {
-          return false;
-        }
-      }
-      else {
-        _has_been_reverse = false;
+        // else
         return false;
       }
+      // else
+      return _has_been_reverse = false;
     }
-    else {
-      return false;
-    }
+    // else
+    return false;
   }
 
   void Motor::toggleDirection() {
@@ -149,9 +140,9 @@ namespace RBD {
     return int((getSpeed() / 255.0 * 100) + 0.5); // add 0.5 for correct rounding
   }
 
-  void Motor::setSpeed(int value, bool stop_everything) { // default: true
+  void Motor::setSpeed(int value, bool _stop_everything) { // default: true
     if(value > -1 && value < 256) {
-      if(stop_everything) {
+      if(_stop_everything) {
         _stopEverything();
       }
       else {
@@ -165,8 +156,8 @@ namespace RBD {
     }
   }
 
-  void Motor::setSpeedPercent(int value, bool stop_everything) { // default: true
-    setSpeed(int(value / 100.0 * 255), stop_everything);
+  void Motor::setSpeedPercent(int value, bool _stop_everything) { // default: true
+    setSpeed(int(value / 100.0 * 255), _stop_everything);
   }
 
   void Motor::rampUp(unsigned long timeout) {
@@ -199,15 +190,13 @@ namespace RBD {
   bool Motor::onTargetSpeed() {
     if(_timer.isExpired() && !_timed_on && !_ramping && !_stop_events) {
       if(!_hit_target_speed) {
-        _hit_target_speed = true;
-        return true;
+        return _hit_target_speed = true;
       }
+      // else
       return false;
     }
-    else {
-      _hit_target_speed = false;
-      return false;
-    }
+    // else
+    return _hit_target_speed = false;
   }
 
 
