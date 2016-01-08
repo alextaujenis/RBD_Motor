@@ -3,6 +3,7 @@ Control many motors without delay with commands like on(), off(), forward(), rev
 
 * [Documentation](http://robotsbigdata.com/docs-arduino-motor.html)
 * [Project Website](http://robotsbigdata.com)
+* [Release Notes](https://github.com/alextaujenis/RBD_Motor/releases)
 * [Comments, Questions, or Issues](https://github.com/alextaujenis/RBD_Motor/issues/new)*
 
 \**Please include your Arduino make/model and IDE version when reporting an issue with this library.*
