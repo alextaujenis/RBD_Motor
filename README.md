@@ -1,4 +1,4 @@
-#Arduino Motor Library v2.1.1
+#Arduino Motor Library v2.1.1[![Build Passing](https://raw.githubusercontent.com/alextaujenis/RobotsBigData/gh-pages/src/images/passing.png)](https://github.com/alextaujenis/RBD_Motor/blob/master/extras/unit_test/unit_test.ino)
 Control many motors without delay with commands like on(), off(), forward(), reverse(), and ramp().
 
 * [Documentation](http://robotsbigdata.com/docs-arduino-motor.html)
