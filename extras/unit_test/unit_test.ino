@@ -1,7 +1,6 @@
-// Arduino RBD Motor Library v2.1.1 - Unit test coverage.
+// Arduino RBD Motor Library v2.1.2 - Unit test coverage.
 // https://github.com/alextaujenis/RBD_Motor
-// Copyright 2016 Alex Taujenis
-// MIT License
+// Copyright (c) 2015 Alex Taujenis - MIT License
 
 #include <ArduinoUnit.h> // https://github.com/mmurdoch/arduinounit
 #include <RBD_Timer.h>   // https://github.com/alextaujenis/RBD_Timer
